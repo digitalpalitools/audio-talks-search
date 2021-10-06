@@ -2,21 +2,39 @@
 
 # Ṭhānissaro Bhikkhu Talks Search Application
 
-Search through Ṭhānissaro Bhikkhu's talks.
+Search through Ṭhānissaro Bhikkhu's talks. Deployed at: https://d.pali.tools/apps#/talks-search/talks/mindfulness
+
+# Backlog
+
+- [x] dhammatalks [before 20211003]
+  - [ ] structured data file: dateId, ytid, author, channel -> re-index
+  - [ ] complete remaining 1k files
+- [ ] Core
+  - [x] AzSearch infra
+  - [ ] Front end
+    - [ ] Search results
+    - [ ] Play
+    - [ ] View subtitle
+- [ ] Core v2
+  - [ ] Play from specific time
+  - [ ] Index transcribed audio
+- [ ] Short dhammatalks
+- [ ] Lectures & longer talks
+- [ ] Suttas
 
 # Instructions
 
 ## Download subtitles
 
-```youtube-dl --dateafter 20210101 --skip-download --write-auto-sub --sub-format srv1 https://www.youtube.com/c/DhammatalksOrg/videos```
+```youtube-dl --dateafter 20210101 --datebefore 20210101 --skip-download --write-auto-sub --sub-format srv1 https://www.youtube.com/c/DhammatalksOrg/videos```
 
 ## Convert to text
 
-```dir -rec -filt *.srv1 .\2021\ | % { ..\format.ps1 $_.FullName }```
+```dir -rec -filt *.srv1 .\dt\ | % { ..\format.ps1 $_.FullName }```
 
 ## Upload to blob store
 
-```azcopy copy ".\talks\2021\*" "https://tsbtalks.blob.core.windows.net/tsbtalks/2021?sv=2019-12-12&st=2021-10-02T22%3A34%3A41Z&se=2021-10-03T22%3A34%3A41Z&sr=c&sp=racwdxlt&sig=E0dCSUbfWWEH%2B8j2YhN5rHZCjXrB7dii6aKMZpqnlqE%3D" --recursive```
+```azcopy copy ".\talks\dt\*.json" "https://tsbtalks.blob.core.windows.net/tsbtalks/dt?sv=2019-12-12&st=2021-10-02T22%3A34%3A41Z&se=2021-10-03T22%3A34%3A41Z&sr=c&sp=racwdxlt&sig=E0dCSUbfWWEH%2B8j2YhN5rHZCjXrB7dii6aKMZpqnlqE%3D" --recursive```
 
 ## Test search
 
@@ -26,3 +44,7 @@ $headers = @{ "api-key" = $apiKey; "Accept" = "application/json; odata.metadata=
 $res = Invoke-RestMethod -Method Get -Uri 'https://tsbtalks.search.windows.net/indexes/azureblob-index/docs?api-version=2020-06-30&search=craving as companion&searchMode=all&searchFields=content&highlight=content&highlightPreTag=<XXX>&highlightPostTag=</XXX>' -Headers $headers
 $res.value[0].'@search.highlights'.content
 ```
+
+# References
+
+- [Short youtube-dl tutorial](https://ostechnix.com/youtube-dl-tutorial-with-examples-for-beginners/)
