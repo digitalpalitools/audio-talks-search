@@ -1,8 +1,13 @@
-[![Continuous Integration](https://github.com/parthopdas/tsbtalks/workflows/Continuous%20Integration/badge.svg)](https://github.com/parthopdas/tsbtalks/actions?query=workflow%3A%22Continuous+Integration%22) [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 # Ṭhānissaro Bhikkhu Talks Search Application
 
-Search through Ṭhānissaro Bhikkhu's talks. Deployed at: https://d.pali.tools/apps#/talks-search/talks/mindfulness
+Search through Ṭhānissaro Bhikkhu's talks.
+
+Front-end:
+
+- Sources: https://github.com/digitalpalitools/web-ui
+- Deployed at: https://d.pali.tools/apps#/talks-search/talks/mindfulness
 
 # Backlog
 
@@ -12,15 +17,16 @@ Search through Ṭhānissaro Bhikkhu's talks. Deployed at: https://d.pali.tools/
 - [ ] Core
   - [x] AzSearch infra
   - [ ] Front end
-    - [ ] Search results
+    - [x] Search results
     - [ ] Play
     - [ ] View subtitle
-- [ ] Core v2
+  - [ ] Add CI
+- [ ] Suttas
+- [ ] Core v1
   - [ ] Play from specific time
   - [ ] Index transcribed audio
 - [ ] Short dhammatalks
 - [ ] Lectures & longer talks
-- [ ] Suttas
 
 # Instructions
 
