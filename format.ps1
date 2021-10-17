@@ -1,5 +1,7 @@
 param (
-  $SrvFile
+  [Parameter(Mandatory=$true)]$SrvFile
+  , [ValidateSet("tsb", "ydb")] $Author
+  , [ValidateSet("main", "dt", "sdt")] $Channel
 )
 
 $inFile = Resolve-Path $SrvFile
@@ -14,19 +16,12 @@ $lines = $xml.transcript.text | ForEach-Object {
 
 $SrvFileName = Split-Path $SrvFile -Leaf
 
-$isAMatch = $SrvFileName -imatch '^(\d{6}|[0-9a-zA-Z]{8})\s+(.*)\s_\s_\s.*\s_\s_\s.*$'
-if (-not $isAMatch) {
-  Write-Host -ForegroundColor Yellow "...$($SrvFileName) does not match expected format"
-  return
-}
-
 $audioInfo = @{
-  dateId = $Matches[1].Trim()
-  title = $Matches[2].Trim()
-  youTubeId = $SrvFileName.Substring($SrvFileName.Length - 18, 11)
-  author = 'Ṭhānissaro Bhikkhu'
-  channel = 'Dhamma Talks'
-  contents = ($lines -join ' ')
+  title = $SrvFileName.Substring(0, $SrvFileName.Length - 20)
+  youTubeId = $SrvFileName.Substring($SrvFileName.Length - 19, 11)
+  author = $Author
+  channel = $Channel
+  subtitles = ($lines -join ' ')
 }
 $json = ConvertTo-Json $audioInfo
 

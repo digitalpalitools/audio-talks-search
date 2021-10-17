@@ -12,8 +12,8 @@ Front-end:
 # Backlog
 
 - [x] dhammatalks [before 20211003]
-  - [ ] structured data file: dateId, ytid, author, channel -> re-index
-  - [ ] complete remaining 1k files
+  - [x] structured data file: dateId, ytid, author, channel -> re-index
+  - [x] complete remaining 1k files
 - [ ] Core
   - [x] AzSearch infra
   - [ ] Front end
@@ -30,13 +30,15 @@ Front-end:
 
 # Instructions
 
-## Download subtitles
+## YouTube Download
 
-```youtube-dl --dateafter 20210101 --datebefore 20210101 --skip-download --write-auto-sub --sub-format srv1 https://www.youtube.com/c/DhammatalksOrg/videos```
+1. Download metadata of all videos in channel: ```youtube-dl --write-info-json --skip-download "https://www.youtube.com/c/DhammatalksOrgShorts/videos" --playlist-start 1```
+1. In case of crash in the above,  terminates prematurely, use ```--playlist-start``` to resume from cursor
+1. Download all subtitles: ```dir *.json | % { $_.FullName.Substring($_.FullName.Length - 21, 11) } | % { youtube-dl --skip-download --write-auto-sub --sub-format srv1 "https://www.youtube.com/watch?v=$($_)" }```
 
 ## Convert to text
 
-```dir -rec -filt *.srv1 .\dt\ | % { ..\format.ps1 $_.FullName }```
+```dir -rec -filt *.srv1 .\yt\ | % { ..\format.ps1 $_.FullName -Author ydb -Channel main }```
 
 ## Upload to blob store
 
